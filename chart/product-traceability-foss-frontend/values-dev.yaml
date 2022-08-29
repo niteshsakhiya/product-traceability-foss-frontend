@@ -1,11 +1,14 @@
 environment: "dev"
 
 image:
-  tag: $ARGOCD_APP_REVISION
+  repository: ftcpro.azurecr.io/frontend/traceability
+  pullPolicy: Always
+  tag: "latest"
   CATENAX_PORTAL_API_URL: 'https://traceability.dev.demo.ftcpro.co/api'
   CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.dev.demo.ftcpro.co/auth'
   CATENAX_PORTAL_CLIENT_ID: 'Cl10-CX-Part'
   CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
+
 
 autoscaling:
   enabled: false
@@ -33,3 +36,5 @@ resources:
   requests:
     cpu: 100m
     memory: 100Mi
+
+

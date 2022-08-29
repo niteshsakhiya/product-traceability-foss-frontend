@@ -23,8 +23,8 @@ export const environment = {
   ..._environment,
   multiTenant: true,
   authDisabled: false,
-  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
+  keycloakUrl: 'https://centralidp.dev.demo.ftcpro.co/auth',
   clientId: 'Cl10-CX-Part',
   defaultRealm: 'CX-Central',
-  apiUrl: 'https://traceability.int.demo.catena-x.net/api',
+  apiUrl: 'https://traceability.int.demo.ftcpro.co/api',
 };
