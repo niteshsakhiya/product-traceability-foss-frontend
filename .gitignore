@@ -53,3 +53,6 @@ tslint-report.json
 
 #error
 yarn-error.log
+
+#github
+./github

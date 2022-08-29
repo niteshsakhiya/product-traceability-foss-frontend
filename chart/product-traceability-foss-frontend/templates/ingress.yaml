@@ -13,8 +13,8 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
   tls:
     - hosts:
-      - {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
-      secretName: {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net-tls
+      - {{ .Values.appName }}.{{ .Values.environment }}.demo.ftcpro.co
+      secretName: {{ .Values.appName }}.{{ .Values.environment }}.demo.ftcpro.co-tls
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}

@@ -2,8 +2,8 @@ environment: "dev"
 
 image:
   tag: $ARGOCD_APP_REVISION
-  CATENAX_PORTAL_API_URL: 'https://traceability.dev.demo.catena-x.net/api'
-  CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.dev.demo.catena-x.net/auth'
+  CATENAX_PORTAL_API_URL: 'https://traceability.dev.demo.ftcpro.co/api'
+  CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.dev.demo.ftcpro.co/auth'
   CATENAX_PORTAL_CLIENT_ID: 'Cl10-CX-Part'
   CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
 
@@ -15,12 +15,21 @@ ingress:
   className: "nginx"
   annotations:
   hosts:
-    - host: "traceability-portal.dev.demo.catena-x.net"
+    - host: "traceability-portal.dev.demo.ftcpro.co"
       paths:
         - path: /
           pathType: Prefix
   tls:
     - hosts:
-        - "traceability-portal.dev.demo.catena-x.net"
+        - "traceability-portal.dev.demo.ftcpro.co"
       # Default secret for certificate creation already provided to your namespace
       secretName: tls-secret
+
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
