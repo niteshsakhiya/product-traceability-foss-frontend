@@ -1495,10 +1495,12 @@
     "@math.gl/polygon" "^3.5.7"
     earcut "^2.0.6"
 
-"@deck.gl/mapbox@8.7.12":
-  version "8.7.12"
-  resolved "https://registry.yarnpkg.com/@deck.gl/mapbox/-/mapbox-8.7.12.tgz#bb6496d4f0466b2221b4203331871a5b5df475ed"
-  integrity sha512-7+80nshBrHNtahYr7l4fSOia2SrAEh7nmilmBZH/1qrEh8jF6XrraX/eZBadVZLX5Gq/r2eU/r+sgTcpCr9rNw==
+"@deck.gl/mapbox@8.8.10":
+  version "8.8.10"
+  resolved "https://registry.yarnpkg.com/@deck.gl/mapbox/-/mapbox-8.8.10.tgz#7fafe378dd0b405946df5b43a103665dc82bc41f"
+  integrity sha512-NwR92nVsnfEtdUkR6kVY0wac3L4VAjrsfRetE/cEJ6A/McJwELhhBbUckxv3oO4v0p9UVuIB2AM71g1m9loTxg==
+  dependencies:
+    "@types/mapbox-gl" "^2.6.3"
 
 "@discoveryjs/json-ext@0.5.6":
   version "0.5.6"
@@ -2804,6 +2806,13 @@
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-2.3.2.tgz#8a3f2cdd4858ce698b56cd8597d9243b8e9d3c65"
   integrity sha512-WOehptuhKIXukSUUkRgGbj2c997Uv/iUgYgII8U7XLJqq9W2oF0kQ6frEznRQbdurioz+L/cdaIm4GutTQfgmA==
+
+"@types/mapbox-gl@^2.6.3":
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/@types/mapbox-gl/-/mapbox-gl-2.7.5.tgz#9e31fc592adb2762e4e5c7727dca5ec367dfc780"
+  integrity sha512-T8gACm3oGKMlBo2l/9vnKEAxgCc0g2mr8g6dI1d3ZO6EzRe7JALBONlWRmc7SOHV79kiarkcdLdDVEnfd+jilA==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/mapbox__point-geometry@*", "@types/mapbox__point-geometry@^0.1.2":
   version "0.1.2"
