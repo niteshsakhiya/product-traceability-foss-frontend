@@ -18,8 +18,11 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
+import { RoleService } from '@core/user/role.service';
 import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
+import { Investigations, InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
+import { InvestigationsService } from '@shared/service/investigations.service';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -31,11 +34,14 @@ import { DashboardStats } from '../model/dashboard.model';
 export class DashboardFacade {
   private assetNumbersSubscription: Subscription;
   private assetsPerCountrySubscription: Subscription;
+  private investigationSubscription: Subscription;
 
   constructor(
     private readonly dashboardService: DashboardService,
     private readonly dashboardState: DashboardState,
     private readonly partsService: PartsService,
+    private readonly investigationsService: InvestigationsService,
+    private readonly roleService: RoleService,
   ) {}
 
   public get numberOfMyParts$(): Observable<View<number>> {
@@ -46,28 +52,43 @@ export class DashboardFacade {
     return this.dashboardState.numberOfBranchParts$;
   }
 
+  public get numberOfInvestigations$(): Observable<View<number>> {
+    return this.dashboardState.numberOfInvestigations$;
+  }
+
   public get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
     return this.dashboardState.assetsPerCountry$;
+  }
+
+  public get investigations$(): Observable<View<Investigations>> {
+    return this.dashboardState.investigations$;
   }
 
   public setDashboardData(): void {
     this.setAssetNumbers();
     this.setAssetsPerCountry();
+
+    if (this.roleService.hasAccess('wip')) {
+      this.setInvestigations();
+    }
   }
 
   private setAssetNumbers(): void {
     this.dashboardState.setNumberOfMyParts({ loader: true });
     this.dashboardState.setNumberOfBranchParts({ loader: true });
+    this.dashboardState.setNumberOfInvestigations({ loader: true });
 
     this.assetNumbersSubscription?.unsubscribe();
     this.assetNumbersSubscription = this.dashboardService.getStats().subscribe({
       next: (dashboardStats: DashboardStats) => {
         this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myItems });
         this.dashboardState.setNumberOfBranchParts({ data: dashboardStats.branchItems });
+        this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigationCount || 0 });
       },
       error: error => {
         this.dashboardState.setNumberOfMyParts({ error });
         this.dashboardState.setNumberOfBranchParts({ error });
+        this.dashboardState.setNumberOfInvestigations({ error });
       },
     });
   }
@@ -95,5 +116,16 @@ export class DashboardFacade {
   public stopDataLoading(): void {
     this.assetNumbersSubscription?.unsubscribe();
     this.assetsPerCountrySubscription?.unsubscribe();
+    this.investigationSubscription?.unsubscribe();
+  }
+
+  private setInvestigations(): void {
+    this.investigationSubscription?.unsubscribe();
+    this.investigationSubscription = this.investigationsService
+      .getInvestigationsByType(InvestigationStatusGroup.RECEIVED, 0, 5)
+      .subscribe({
+        next: data => this.dashboardState.setInvestigation({ data }),
+        error: (error: Error) => this.dashboardState.setInvestigation({ error }),
+      });
   }
 }
