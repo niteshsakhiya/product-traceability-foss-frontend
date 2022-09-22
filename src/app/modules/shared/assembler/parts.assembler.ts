@@ -51,6 +51,7 @@ export class PartsAssembler {
       qualityType: part.qualityType || QualityType.Ok,
       productionDate: new CalendarDateModel(part.manufacturingDate),
       children: part.childDescriptions.map(child => child.id),
+      shouldHighlight: part.isInvestigationActive || false,
     };
   }
 
@@ -72,14 +73,15 @@ export class PartsAssembler {
 
   public static assembleParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
     if (!parts || !parts.content.length) {
-      return null;
+      return { page: 0, pageCount: 0, pageSize: 0, totalItems: 0, content: [] };
     }
+
     return PaginationAssembler.assemblePagination(parts, PartsAssembler.assemblePart);
   }
 
   public static assembleOtherParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
     if (!parts || !parts.content.length) {
-      return null;
+      return { page: 0, pageCount: 0, pageSize: 0, totalItems: 0, content: [] };
     }
     return PaginationAssembler.assemblePagination(parts, PartsAssembler.assembleOtherPart);
   }

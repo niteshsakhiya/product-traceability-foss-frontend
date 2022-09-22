@@ -46,6 +46,7 @@ SPDX-License-Identifier: Apache-2.0
       <tr
         *matRowDef="let row; columns: tableConfig.displayedColumns"
         [class.loading]="this.isDataLoading"
+        [class.highlighted]="row?.shouldHighlight"
         (click)="this.selected.emit(row)"
         mat-row
         data-testid="table-component--body-row"
@@ -65,6 +66,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-template #SelectColumn>
         <ng-container matColumnDef="select">
           <th *matHeaderCellDef mat-header-cell>
+            <!-- ToDo: Remove function call in HTML attribute -->
             <mat-checkbox
               [checked]="selection.hasValue() && areAllRowsSelected()"
               [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
@@ -112,6 +114,7 @@ SPDX-License-Identifier: Apache-2.0
   </app-scroll-with-shadow>
 
   <mat-paginator
+    *ngIf="tableConfig.hasPagination"
     [length]="this.totalItems"
     [pageIndex]="this.pageIndex"
     [pageSizeOptions]="[5, 10, 20]"

@@ -26,7 +26,7 @@ import { renderComponent } from '@tests/test-render.utils';
 import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
 
-jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+jest.mock('maplibre-gl/dist/maplibre-gl', () => ({
   GeolocateControl: jest.fn(),
   Map: jest.fn(() => ({
     addControl: jest.fn(),
@@ -89,5 +89,24 @@ describe('Dashboard', () => {
     expect(await screen.findByText('Number of parts per country')).toBeInTheDocument();
 
     await waitFor(() => expect(fixture.debugElement.query(By.css('.dashboard--map')).componentInstance).toBeDefined());
+  });
+
+  describe('investigations', () => {
+    it('should render investigation component', async () => {
+      await renderDashboard({ roles: ['wip'] });
+
+      expect(await screen.findByText('Quality Investigations')).toBeInTheDocument();
+    });
+
+    it('should render count for investigations', async () => {
+      await renderDashboard({ roles: ['wip'] });
+
+      expect(await screen.findByText('20')).toBeInTheDocument();
+
+      expect(screen.getByText('Total investigations')).toHaveAttribute(
+        'id',
+        screen.getByText('20').getAttribute('aria-describedby'),
+      );
+    });
   });
 });

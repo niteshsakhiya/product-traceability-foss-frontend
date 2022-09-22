@@ -41,11 +41,13 @@ import Tree from './tree/tree.d3';
   styleUrls: ['./part-relation.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [RelationComponentState, RelationsFacade],
+  host: {
+    'class.app-part-relation-host': 'isStandalone',
+  },
 })
 export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() isStandalone = true;
   @Input() showMiniMap = true;
-  @Input() zoom: number;
 
   public readonly htmlIdBase = 'app-part-relation-';
   public readonly subscriptions = new Subscription();
@@ -127,10 +129,11 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       mainElement: d3.select(`#${this.htmlId}`),
       openDetails: this.isStandalone ? this.openDetails.bind(this) : _ => null,
       updateChildren: this.updateChildren.bind(this),
-      zoom: this.zoom,
     };
 
-    this.tree = new Tree(treeConfig);
+    this.tree = new Tree(treeConfig, {
+      preserveRight: 32 + 64, // we want to preserve space on load for zoom control
+    });
 
     if (!this.showMiniMap) {
       return;
